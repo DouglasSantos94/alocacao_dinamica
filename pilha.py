@@ -9,20 +9,12 @@ class Pilha:
         self.__max_elementos = max_elementos
 
     @property
-    def topo(self):
-        return self.__topo
-
-    @property
     def contador(self):
         return self.__contador
 
     @property
     def max_elementos(self):
         return self.__max_elementos
-
-    @topo.setter
-    def topo(self, topo):
-        self.__topo = topo
 
     @contador.setter
     def contador(self, contador):
@@ -31,16 +23,23 @@ class Pilha:
     def push(self, valor):
         if(self.contador < self.max_elementos):
             tmp = ElementoPilha(valor)
-            tmp.anterior = self.topo
-            self.topo = tmp
+            tmp.anterior = self.__topo
+            self.__topo = tmp
             self.contador += 1
+            self.imprime_valor_anterior()
         else:
             raise Exception('Tamanho máximo excedido!')
 
     def pop(self):
         self.contador -= 1
-        if(self.topo.anterior):
-            self.topo = self.topo.anterior
-            return self.topo.valor
+        if(self.__topo):
+            print('Removido: ', self.__topo.valor)
+            self.__topo = self.__topo.anterior
         else:
             raise Exception('Pilha vazia!')
+    
+    def imprime_valor_anterior(self):
+        print('Valor: ', self.__topo.valor)
+        texto = 'Anterior: {}'.format(
+            self.__topo.anterior.valor if self.__topo.anterior else self.__topo.anterior)
+        print(texto)

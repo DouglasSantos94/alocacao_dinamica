@@ -10,28 +10,12 @@ class Fila:
         self.__contador = 0
 
     @property
-    def topo(self):
-        return self.__topo
-
-    @property
-    def inicio(self):
-        return self.__inicio
-
-    @property
     def max_elementos(self):
         return self.__max_elementos
 
     @property
     def contador(self):
         return self.__contador
-
-    @topo.setter
-    def topo(self, topo):
-        self.__topo = topo
-
-    @inicio.setter
-    def inicio(self, inicio):
-        self.__inicio = inicio
 
     @contador.setter
     def contador(self, contador):
@@ -41,23 +25,30 @@ class Fila:
         self.contador += 1
         if(self.contador <= self.max_elementos):
             tmp = ElementoFila(valor)
-            if not self.inicio:
-                self.inicio = tmp
-                self.topo = tmp
-            elif not self.inicio.proximo:
-                self.inicio.proximo = tmp
-                self.topo = self.inicio.proximo
+            if not self.__inicio:
+                self.__inicio = tmp
+                self.__topo = tmp
+            elif not self.__inicio.proximo:
+                self.__inicio.proximo = tmp
+                self.__topo = self.__inicio.proximo
             else:
-                self.topo.proximo = tmp
-                self.topo = self.topo.proximo
+                self.__topo.proximo = tmp
+                self.__topo = self.__topo.proximo
+            self.imprime_topo()
         else:
             raise Exception('Fila lotada!')
 
     def remove(self):
         self.contador -= 1
-        if self.inicio:
-            print('Removido: ', self.inicio.valor)
-            self.inicio = self.inicio.proximo
+        if self.__inicio:
+            self.imprime_removido()
+            self.__inicio = self.__inicio.proximo
         else:
-            self.topo = None
+            self.__topo = None
             raise Exception('Fila vazia!')
+    
+    def imprime_topo(self):
+        print('Valor topo: ', self.__topo.valor)
+
+    def imprime_removido(self):
+        print('Removido: ', self.__inicio.valor)
