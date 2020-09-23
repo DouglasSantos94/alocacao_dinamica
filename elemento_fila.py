@@ -3,6 +3,7 @@ class ElementoFila:
     def __init__(self, valor):
         self.__valor = valor
         self.__proximo = None
+        self.__inicio = None
 
     @property
     def valor(self):
