@@ -3,15 +3,10 @@ from elemento_fila import ElementoFila
 
 class Fila:
 
-    def __init__(self, max_elementos):
+    def __init__(self):
         self.__topo = None
         self.__inicio = None
-        self.__max_elementos = max_elementos
         self.__contador = 0
-
-    @property
-    def max_elementos(self):
-        return self.__max_elementos
 
     @property
     def contador(self):
@@ -21,9 +16,8 @@ class Fila:
     def contador(self, contador):
         self.__contador = contador
 
-    def insere(self, valor):
-        self.contador += 1
-        if(self.contador <= self.max_elementos):
+    def insere(self, valor, max_elementos):
+        if(self.contador < max_elementos):
             tmp = ElementoFila(valor)
             if not self.__inicio:
                 self.__inicio = tmp
@@ -34,21 +28,20 @@ class Fila:
             else:
                 self.__topo.proximo = tmp
                 self.__topo = self.__topo.proximo
-            self.imprime_topo()
         else:
             raise Exception('Fila lotada!')
+        self.contador += 1
 
     def remove(self):
-        self.contador -= 1
-        if self.__inicio:
-            self.imprime_removido()
+        if self.__inicio.proximo:
             self.__inicio = self.__inicio.proximo
         else:
             self.__topo = None
             raise Exception('Fila vazia!')
-    
-    def imprime_topo(self):
-        print('Valor topo: ', self.__topo.valor)
+        self.contador -= 1
 
-    def imprime_removido(self):
-        print('Removido: ', self.__inicio.valor)
+    def elemento_topo(self):
+        return self.__topo.valor
+
+    def elemento_inicio(self):
+        return self.__inicio.valor

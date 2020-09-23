@@ -5,8 +5,9 @@ from fila import Fila
 class TesteFilaPilha:
 
     def __init__(self, max_elementos):
-        self.__pilha = Pilha(max_elementos)
-        self.__fila = Fila(max_elementos)
+        self.__pilha = Pilha()
+        self.__fila = Fila()
+        self.__max_elementos = max_elementos
 
     @property
     def pilha(self):
@@ -15,27 +16,37 @@ class TesteFilaPilha:
     @property
     def fila(self):
         return self.__fila
+    
+    @property
+    def max_elementos(self):
+        return self.__max_elementos
 
     def testa_encher_pilha(self):
-        for i in range(self.pilha.max_elementos + 1):
+        for i in range(self.max_elementos + 1):
             try:
-                self.pilha.push(i+1)
+                self.pilha.push(i+1, self.max_elementos)
+                topo = self.pilha.elemento_topo()[0]
+                anterior = self.pilha.elemento_topo()[1]
+                print('Topo: {}\nAnterior: {}'.format(topo.valor, anterior.valor if anterior else anterior))
             except Exception as e:
                 print(e)
                 break
 
     def testa_esvaziar_pilha(self):
-        for i in range(self.pilha.contador + 1):
+        while True:
             try:
+                print('Removido: {}'.format(self.pilha.elemento_topo()[0].valor))
                 self.pilha.pop()
+                print('Topo: {}'.format(self.pilha.elemento_topo()[0].valor))
             except Exception as e:
                 print(e)
                 break
 
     def testa_encher_fila(self):
-        for i in range(1, self.fila.max_elementos + 2):
+        for i in range(1, self.max_elementos + 2):
             try:
-                self.fila.insere(i)
+                self.fila.insere(i, self.max_elementos)
+                print('Valor topo: ', self.fila.elemento_topo())
             except Exception as e:
                 print(e)
                 break
@@ -43,6 +54,7 @@ class TesteFilaPilha:
     def testa_esvaziar_fila(self):
         while True:
             try:
+                print('Inicio: ', self.fila.elemento_inicio())
                 self.fila.remove()
             except Exception as e:
                 print(e)
